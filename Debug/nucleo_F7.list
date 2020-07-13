@@ -37,6 +37,18 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  16 .debug_macro  0002a4af  00000000  00000000  00042840  2**0
                   CONTENTS, READONLY, DEBUGGING
+<<<<<<< HEAD
+<<<<<<< HEAD
+ 17 .debug_line   000141e7  00000000  00000000  0006ccef  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 18 .debug_str    00101c84  00000000  00000000  00080ed6  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 19 .comment      0000007b  00000000  00000000  00182b5a  2**0
+                  CONTENTS, READONLY
+ 20 .debug_frame  00006240  00000000  00000000  00182bd8  2**2
+=======
+=======
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
  17 .debug_line   000141e5  00000000  00000000  0006ccef  2**0
                   CONTENTS, READONLY, DEBUGGING
  18 .debug_str    00101c84  00000000  00000000  00080ed4  2**0
@@ -44,6 +56,10 @@ Idx Name          Size      VMA       LMA       File off  Algn
  19 .comment      0000007b  00000000  00000000  00182b58  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00006240  00000000  00000000  00182bd4  2**2
+<<<<<<< HEAD
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
+=======
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2592,6 +2608,18 @@ int main(void)
  8001870:	4b2b      	ldr	r3, [pc, #172]	; (8001920 <main+0xe0>)
  8001872:	f64f 72ff 	movw	r2, #65535	; 0xffff
  8001876:	62da      	str	r2, [r3, #44]	; 0x2c
+<<<<<<< HEAD
+<<<<<<< HEAD
+   TIM1->PSC=500;
+ 8001878:	4b29      	ldr	r3, [pc, #164]	; (8001920 <main+0xe0>)
+ 800187a:	f44f 72fa 	mov.w	r2, #500	; 0x1f4
+ 800187e:	629a      	str	r2, [r3, #40]	; 0x28
+   TIM1->CCR1=50000;
+ 8001880:	4b27      	ldr	r3, [pc, #156]	; (8001920 <main+0xe0>)
+ 8001882:	f24c 3250 	movw	r2, #50000	; 0xc350
+=======
+=======
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
    TIM1->PSC=15000;
  8001878:	4b29      	ldr	r3, [pc, #164]	; (8001920 <main+0xe0>)
  800187a:	f643 2298 	movw	r2, #15000	; 0x3a98
@@ -2599,6 +2627,10 @@ int main(void)
    TIM1->CCR1=20000;
  8001880:	4b27      	ldr	r3, [pc, #156]	; (8001920 <main+0xe0>)
  8001882:	f644 6220 	movw	r2, #20000	; 0x4e20
+<<<<<<< HEAD
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
+=======
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
  8001886:	635a      	str	r2, [r3, #52]	; 0x34
 
   // HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);

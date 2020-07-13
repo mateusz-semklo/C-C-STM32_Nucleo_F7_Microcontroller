@@ -242,8 +242,20 @@ int main(void)
  //  TIM1->CCR1=5000;
 
    TIM1->ARR=0xFFFF;
+<<<<<<< HEAD
+<<<<<<< HEAD
+   TIM1->PSC=500;
+   TIM1->CCR1=50000;
+
+
+=======
    TIM1->PSC=15000;
    TIM1->CCR1=20000;
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
+=======
+   TIM1->PSC=15000;
+   TIM1->CCR1=20000;
+>>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
 
 
   // HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);
