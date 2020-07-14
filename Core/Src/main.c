@@ -151,9 +151,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 
-				Ia=(pomiar[0]-3000) * 0.0044;
-			    Ib=(pomiar[1]-3000) * 0.0044;
-			    Ic=(pomiar[2]-3000) * 0.0044;
+				Ia=(pomiar[0]-2950) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
+			    Ib=(pomiar[1]-2950) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
+			    Ic=(pomiar[2]-2950) * 0.0044;
 			    theta=((int16_t)(pomiar[3] * 0.0879));
 
 f++;
@@ -242,20 +242,12 @@ int main(void)
  //  TIM1->CCR1=5000;
 
    TIM1->ARR=0xFFFF;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
    TIM1->PSC=500;
-   TIM1->CCR1=50000;
+   TIM1->CCR1=30000;
 
 
-=======
-   TIM1->PSC=15000;
-   TIM1->CCR1=20000;
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
-=======
-   TIM1->PSC=15000;
-   TIM1->CCR1=20000;
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
+
 
 
   // HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);

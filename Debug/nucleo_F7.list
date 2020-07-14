@@ -37,8 +37,6 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  16 .debug_macro  0002a4af  00000000  00000000  00042840  2**0
                   CONTENTS, READONLY, DEBUGGING
-<<<<<<< HEAD
-<<<<<<< HEAD
  17 .debug_line   000141e7  00000000  00000000  0006ccef  2**0
                   CONTENTS, READONLY, DEBUGGING
  18 .debug_str    00101c84  00000000  00000000  00080ed6  2**0
@@ -46,20 +44,6 @@ Idx Name          Size      VMA       LMA       File off  Algn
  19 .comment      0000007b  00000000  00000000  00182b5a  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00006240  00000000  00000000  00182bd8  2**2
-=======
-=======
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
- 17 .debug_line   000141e5  00000000  00000000  0006ccef  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    00101c84  00000000  00000000  00080ed4  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00182b58  2**0
-                  CONTENTS, READONLY
- 20 .debug_frame  00006240  00000000  00000000  00182bd4  2**2
-<<<<<<< HEAD
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
-=======
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2355,11 +2339,11 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
  800166c:	af00      	add	r7, sp, #0
  800166e:	6078      	str	r0, [r7, #4]
 
-				Ia=(pomiar[0]-3000) * 0.0044;
+				Ia=(pomiar[0]-2950) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
  8001670:	4b65      	ldr	r3, [pc, #404]	; (8001808 <HAL_ADC_ConvCpltCallback+0x1a0>)
  8001672:	881b      	ldrh	r3, [r3, #0]
  8001674:	b21b      	sxth	r3, r3
- 8001676:	f6a3 33b8 	subw	r3, r3, #3000	; 0xbb8
+ 8001676:	f6a3 3386 	subw	r3, r3, #2950	; 0xb86
  800167a:	4618      	mov	r0, r3
  800167c:	f7fe ff72 	bl	8000564 <__aeabi_i2d>
  8001680:	a35d      	add	r3, pc, #372	; (adr r3, 80017f8 <HAL_ADC_ConvCpltCallback+0x190>)
@@ -2373,11 +2357,11 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
  8001696:	4602      	mov	r2, r0
  8001698:	4b5c      	ldr	r3, [pc, #368]	; (800180c <HAL_ADC_ConvCpltCallback+0x1a4>)
  800169a:	601a      	str	r2, [r3, #0]
-			    Ib=(pomiar[1]-3000) * 0.0044;
+			    Ib=(pomiar[1]-2950) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
  800169c:	4b5a      	ldr	r3, [pc, #360]	; (8001808 <HAL_ADC_ConvCpltCallback+0x1a0>)
  800169e:	885b      	ldrh	r3, [r3, #2]
  80016a0:	b21b      	sxth	r3, r3
- 80016a2:	f6a3 33b8 	subw	r3, r3, #3000	; 0xbb8
+ 80016a2:	f6a3 3386 	subw	r3, r3, #2950	; 0xb86
  80016a6:	4618      	mov	r0, r3
  80016a8:	f7fe ff5c 	bl	8000564 <__aeabi_i2d>
  80016ac:	a352      	add	r3, pc, #328	; (adr r3, 80017f8 <HAL_ADC_ConvCpltCallback+0x190>)
@@ -2391,11 +2375,11 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
  80016c2:	4602      	mov	r2, r0
  80016c4:	4b52      	ldr	r3, [pc, #328]	; (8001810 <HAL_ADC_ConvCpltCallback+0x1a8>)
  80016c6:	601a      	str	r2, [r3, #0]
-			    Ic=(pomiar[2]-3000) * 0.0044;
+			    Ic=(pomiar[2]-2950) * 0.0044;
  80016c8:	4b4f      	ldr	r3, [pc, #316]	; (8001808 <HAL_ADC_ConvCpltCallback+0x1a0>)
  80016ca:	889b      	ldrh	r3, [r3, #4]
  80016cc:	b21b      	sxth	r3, r3
- 80016ce:	f6a3 33b8 	subw	r3, r3, #3000	; 0xbb8
+ 80016ce:	f6a3 3386 	subw	r3, r3, #2950	; 0xb86
  80016d2:	4618      	mov	r0, r3
  80016d4:	f7fe ff46 	bl	8000564 <__aeabi_i2d>
  80016d8:	a347      	add	r3, pc, #284	; (adr r3, 80017f8 <HAL_ADC_ConvCpltCallback+0x190>)
@@ -2608,29 +2592,14 @@ int main(void)
  8001870:	4b2b      	ldr	r3, [pc, #172]	; (8001920 <main+0xe0>)
  8001872:	f64f 72ff 	movw	r2, #65535	; 0xffff
  8001876:	62da      	str	r2, [r3, #44]	; 0x2c
-<<<<<<< HEAD
-<<<<<<< HEAD
+
    TIM1->PSC=500;
  8001878:	4b29      	ldr	r3, [pc, #164]	; (8001920 <main+0xe0>)
  800187a:	f44f 72fa 	mov.w	r2, #500	; 0x1f4
  800187e:	629a      	str	r2, [r3, #40]	; 0x28
-   TIM1->CCR1=50000;
+   TIM1->CCR1=30000;
  8001880:	4b27      	ldr	r3, [pc, #156]	; (8001920 <main+0xe0>)
- 8001882:	f24c 3250 	movw	r2, #50000	; 0xc350
-=======
-=======
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
-   TIM1->PSC=15000;
- 8001878:	4b29      	ldr	r3, [pc, #164]	; (8001920 <main+0xe0>)
- 800187a:	f643 2298 	movw	r2, #15000	; 0x3a98
- 800187e:	629a      	str	r2, [r3, #40]	; 0x28
-   TIM1->CCR1=20000;
- 8001880:	4b27      	ldr	r3, [pc, #156]	; (8001920 <main+0xe0>)
- 8001882:	f644 6220 	movw	r2, #20000	; 0x4e20
-<<<<<<< HEAD
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
-=======
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
+ 8001882:	f247 5230 	movw	r2, #30000	; 0x7530
  8001886:	635a      	str	r2, [r3, #52]	; 0x34
 
   // HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);

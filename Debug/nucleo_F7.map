@@ -8340,21 +8340,11 @@ OUTPUT(nucleo_F7.elf elf32-littlearm)
  .debug_macro   0x000000000002a1ce      0x16c Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_pid_init_f32.o
  .debug_macro   0x000000000002a33a      0x175 Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_sin_cos_f32.o
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 .debug_line     0x0000000000000000    0x141e7
-=======
-.debug_line     0x0000000000000000    0x141e5
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
-=======
-.debug_line     0x0000000000000000    0x141e5
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
  .debug_line    0x0000000000000000      0x7dd Core/Src/adc.o
  .debug_line    0x00000000000007dd      0x779 Core/Src/dma.o
  .debug_line    0x0000000000000f56      0x7cd Core/Src/eth.o
  .debug_line    0x0000000000001723      0x793 Core/Src/gpio.o
-<<<<<<< HEAD
-<<<<<<< HEAD
  .debug_line    0x0000000000001eb6      0xb36 Core/Src/main.o
  .debug_line    0x00000000000029ec      0x77b Core/Src/stm32f7xx_hal_msp.o
  .debug_line    0x0000000000003167      0x8af Core/Src/stm32f7xx_it.o
@@ -8384,42 +8374,6 @@ OUTPUT(nucleo_F7.elf elf32-littlearm)
  .debug_line    0x0000000000013135      0x580 Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_common_tables.o
  .debug_line    0x00000000000136b5      0x57d Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_pid_init_f32.o
  .debug_line    0x0000000000013c32      0x5b5 Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_sin_cos_f32.o
-=======
-=======
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
- .debug_line    0x0000000000001eb6      0xb34 Core/Src/main.o
- .debug_line    0x00000000000029ea      0x77b Core/Src/stm32f7xx_hal_msp.o
- .debug_line    0x0000000000003165      0x8af Core/Src/stm32f7xx_it.o
- .debug_line    0x0000000000003a14      0x55e Core/Src/sysmem.o
- .debug_line    0x0000000000003f72      0x794 Core/Src/system_stm32f7xx.o
- .debug_line    0x0000000000004706      0x834 Core/Src/tim.o
- .debug_line    0x0000000000004f3a      0x800 Core/Src/usart.o
- .debug_line    0x000000000000573a      0x7bc Core/Src/usb_otg.o
- .debug_line    0x0000000000005ef6       0x85 Core/Startup/startup_stm32f746zgtx.o
- .debug_line    0x0000000000005f7b      0x9a3 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal.o
- .debug_line    0x000000000000691e      0xbcc Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc.o
- .debug_line    0x00000000000074ea      0xa6e Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_adc_ex.o
- .debug_line    0x0000000000007f58      0xaa4 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_cortex.o
- .debug_line    0x00000000000089fc      0xa4f Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_dma.o
- .debug_line    0x000000000000944b      0xe51 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_eth.o
- .debug_line    0x000000000000a29c      0x988 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_gpio.o
- .debug_line    0x000000000000ac24      0xcf8 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd.o
- .debug_line    0x000000000000b91c      0x806 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pcd_ex.o
- .debug_line    0x000000000000c122      0x8e8 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr.o
- .debug_line    0x000000000000ca0a      0x8c4 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_pwr_ex.o
- .debug_line    0x000000000000d2ce      0xa19 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc.o
- .debug_line    0x000000000000dce7      0x98b Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_rcc_ex.o
- .debug_line    0x000000000000e672     0x1ac0 Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim.o
- .debug_line    0x0000000000010132      0xe2b Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_tim_ex.o
- .debug_line    0x0000000000010f5d     0x132a Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_hal_uart.o
- .debug_line    0x0000000000012287      0xeac Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_usb.o
- .debug_line    0x0000000000013133      0x580 Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_common_tables.o
- .debug_line    0x00000000000136b3      0x57d Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_pid_init_f32.o
- .debug_line    0x0000000000013c30      0x5b5 Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include/arm_sin_cos_f32.o
-<<<<<<< HEAD
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
-=======
->>>>>>> d9406d99c57890a9848312fd213f5ad332613b4d
 
 .debug_str      0x0000000000000000   0x101c84
  .debug_str     0x0000000000000000    0xf5964 Core/Src/adc.o
