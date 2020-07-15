@@ -66,14 +66,14 @@
 /* USER CODE BEGIN PV */
 
 
-volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta,sinVal,cosVal,pId,pIq;
+volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta_mech,theta_el,sinVal,cosVal,pId,pIq;
 
 volatile uint8_t trans,recive;
 volatile int16_t pomiar[4], set_point;
 volatile arm_pid_instance_f32 pid;
 
 uint8_t allow=0;
-uint16_t licz,i,a,b,c,d,f=0;
+uint16_t licz,i,a,b,c;
 
 
 volatile char tablica[size][18];
@@ -90,7 +90,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance==TIM1)
 		{
-d++;
+
 
 /**
 
@@ -154,12 +154,12 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 				Ia=(pomiar[0]-2950) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
 			    Ib=(pomiar[1]-2950) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
 			    Ic=(pomiar[2]-2950) * 0.0044;
-			    theta=((int16_t)(pomiar[3] * 0.0879));
+			    theta_mech=((int16_t)(pomiar[3] * 0.0879));
+			    theta_el=theta_mech*2;
 
-f++;
 
 			    arm_clarke_f32(Ia, Ib, &Ialpha, &Ibeta);
-			    arm_sin_cos_f32(theta, &sinVal, &cosVal);
+			    arm_sin_cos_f32(theta_el, &sinVal, &cosVal);
 			    arm_park_f32(Ialpha, Ibeta, &pId, &pIq, sinVal, cosVal);
 
 /**
