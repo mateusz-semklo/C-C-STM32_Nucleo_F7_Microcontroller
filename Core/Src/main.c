@@ -66,14 +66,14 @@
 /* USER CODE BEGIN PV */
 
 
-volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta_mech,theta_el,sinVal,cosVal,pId,pIq;
+volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta_mech,theta_el,sinVal,cosVal,pId,pIq,okres_COM,speed;
 
 volatile uint8_t trans,recive;
 volatile int16_t pomiar[4], set_point;
 volatile arm_pid_instance_f32 pid;
 
 uint8_t allow=0;
-uint16_t licz,i,a,b,c;
+uint16_t licz,i,a,b,c,d;
 
 
 volatile char tablica[size][18];
@@ -111,6 +111,13 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance==TIM1)
 	{
+   /// TIM3 CLK 80 MHz, PSC =499,  80MGz/(PSC+1)*(TIM1->CCR1+1)
+	/// 80 000 000/ 500 = 160 000 Hz
+	/// T 1/160000 = 0,0000006
+	okres_COM=	0.00000625 * TIM3->CCR1;
+	// speed = 60 * (12*okres_COM) [obr/min]
+	speed=5 / okres_COM;
+
 
 
 	}
@@ -129,7 +136,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin==GPIO_PIN_13)
 	{
-		 HAL_TIMEx_HallSensor_Start(&htim3);
+
 		 HAL_TIM_Base_Start_IT(&htim1);
 		 HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
 
@@ -237,26 +244,21 @@ int main(void)
 
 
   //////// konfiguracja Timer 1  ////////////
-  // TIM1->ARR=limit_H_ARR/2;
- //  TIM1->PSC=0;
- //  TIM1->CCR1=5000;
-
    TIM1->ARR=0xFFFF;
+   TIM1->PSC=50;
+   TIM1->CCR1=63000;
 
-   TIM1->PSC=500;
-   TIM1->CCR1=30000;
-
-
-
-
-
-  // HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);
+   HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);
 
 
    //////// konfiguracja Timer 3  ////////////
-    TIM3->ARR=0xFFFF;
-    TIM3->PSC=500;
-    TIM3->CCR2=2;
+    TIM3->ARR=0xFFFE;
+    TIM3->PSC=499;
+    TIM3->CCR2=1;
+    TIM3->CCR4=1;
+    HAL_TIMEx_HallSensor_Start(&htim3);
+    HAL_TIM_Base_Start(&htim3);
+    HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_4);
 
 
 

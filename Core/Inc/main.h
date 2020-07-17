@@ -105,6 +105,8 @@ void Error_Handler(void);
 #define HALL_V_GPIO_Port GPIOC
 #define HALL_U_Pin GPIO_PIN_8
 #define HALL_U_GPIO_Port GPIOC
+#define TIM3_CH4_HALL_OUT_Pin GPIO_PIN_9
+#define TIM3_CH4_HALL_OUT_GPIO_Port GPIOC
 #define USB_SOF_Pin GPIO_PIN_8
 #define USB_SOF_GPIO_Port GPIOA
 #define USB_VBUS_Pin GPIO_PIN_9
