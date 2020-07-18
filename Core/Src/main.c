@@ -54,6 +54,7 @@
 #define limit_H_current 500
 #define limit_L 0
 #define size 2000
+#define ilosc_probek 120
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -67,20 +68,21 @@
 
 
 volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta_mech,theta_el,sinVal,cosVal,pId,pIq;
-volatile float32_t okres_COM,speed,sum_speed,average_speed,speed_tab[12];
+volatile float32_t okres_COM,speed, sum_speed, average_speed, speed_tab[ilosc_probek];
 
 volatile uint8_t trans,recive;
-
 volatile int16_t pomiar[4], set_point;
 volatile arm_pid_instance_f32 pid;
 
 uint8_t allow=0;
-uint8_t d=11;
-uint8_t	g=1;
-uint8_t f=0;
+uint8_t f,g=0;
+uint8_t d=(ilosc_probek-1);
 uint16_t licz,i,a,b,c;
 
+
+
 volatile char tablica[size][18];
+
 
 
 /* USER CODE END PV */
@@ -113,41 +115,44 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance==TIM1)
-	{
-   /// TIM3 CLK 80 MHz, PSC =499,  80MGz/(PSC+1)*(TIM1->CCR1+1)
-	/// 80 000 000/ 500 = 160 000 Hz
-	/// T 1/160000 = 0,000000625
-	okres_COM=	0.00000625 * TIM3->CCR1;
-	// speed = 60 * 1/(12*okres_COM) [obr/min]
-	speed=5 / okres_COM;
+		{
+	   /// TIM3 CLK 80 MHz, PSC =499,  80MGz/(PSC+1)*(TIM1->CCR1+1)
+		/// 80 000 000/ 500 = 160 000 Hz
+		/// T 1/160000 = 0,000000625
+		okres_COM=	0.00000625 * TIM3->CCR1;
+		// speed = 60 * 1/(12*okres_COM) [obr/min]
+		speed=5 / okres_COM;
 
-	speed_tab[0]=okres_COM;
+		speed_tab[0]=okres_COM;
 
-	while (d>0)
-	{
-		speed_tab[d]=speed_tab[d-1];
-		d--;
-	}
-	d=11;
+		while (d>0)
+		{
+			speed_tab[d]=speed_tab[d-1];
+			d--;
+		}
+		d=(ilosc_probek-1);
 
-	if(g<12)
-		g++;
-	else
-		g=12;
+		if(g<ilosc_probek)
+			g++;
 
-	f=0;
-	while(f<g)
-	{
-		sum_speed=sum_speed + speed_tab[f];
-		f++;
+		else
+			g=ilosc_probek;
 
-	}
 
-	average_speed= 5 / (sum_speed/(f+1));
 
-	sum_speed=0;
+		f=0;
+		while(f<g)
+		{
+			sum_speed=sum_speed + speed_tab[f];
+			f++;
 
-	}
+		}
+
+		average_speed= 5 / (sum_speed/(f+1));
+
+		sum_speed=0;
+
+		}
 }
 
 

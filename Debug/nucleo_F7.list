@@ -21,9 +21,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   8 .data         000001e0  20000000  0800cee8  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00009468  200001e0  0800d0c8  000201e0  2**2
+  9 .bss          0000961c  200001e0  0800d0c8  000201e0  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  20009648  0800d0c8  00029648  2**0
+ 10 ._user_heap_stack 00000604  200097fc  0800d0c8  000297fc  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  000201e0  2**0
                   CONTENTS, READONLY
@@ -35,15 +35,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  15 .debug_ranges 00001260  00000000  00000000  00040ab0  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  0002a27b  00000000  00000000  00041d10  2**0
+ 16 .debug_macro  0002a281  00000000  00000000  00041d10  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   00013951  00000000  00000000  0006bf8b  2**0
+ 17 .debug_line   00013951  00000000  00000000  0006bf91  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    00101b4c  00000000  00000000  0007f8dc  2**0
+ 18 .debug_str    00101b5d  00000000  00000000  0007f8e2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00181428  2**0
+ 19 .comment      0000007b  00000000  00000000  0018143f  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00006078  00000000  00000000  001814a4  2**2
+ 20 .debug_frame  00006078  00000000  00000000  001814bc  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2265,11 +2265,11 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  8001604:	4a46      	ldr	r2, [pc, #280]	; (8001720 <HAL_TIMEx_CommutCallback+0x128>)
  8001606:	4293      	cmp	r3, r2
  8001608:	f040 8081 	bne.w	800170e <HAL_TIMEx_CommutCallback+0x116>
-	{
-   /// TIM3 CLK 80 MHz, PSC =499,  80MGz/(PSC+1)*(TIM1->CCR1+1)
-	/// 80 000 000/ 500 = 160 000 Hz
-	/// T 1/160000 = 0,000000625
-	okres_COM=	0.00000625 * TIM3->CCR1;
+		{
+	   /// TIM3 CLK 80 MHz, PSC =499,  80MGz/(PSC+1)*(TIM1->CCR1+1)
+		/// 80 000 000/ 500 = 160 000 Hz
+		/// T 1/160000 = 0,000000625
+		okres_COM=	0.00000625 * TIM3->CCR1;
  800160c:	4b45      	ldr	r3, [pc, #276]	; (8001724 <HAL_TIMEx_CommutCallback+0x12c>)
  800160e:	6b5b      	ldr	r3, [r3, #52]	; 0x34
  8001610:	4618      	mov	r0, r3
@@ -2285,8 +2285,8 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  800162c:	4602      	mov	r2, r0
  800162e:	4b3e      	ldr	r3, [pc, #248]	; (8001728 <HAL_TIMEx_CommutCallback+0x130>)
  8001630:	601a      	str	r2, [r3, #0]
-	// speed = 60 * 1/(12*okres_COM) [obr/min]
-	speed=5 / okres_COM;
+		// speed = 60 * 1/(12*okres_COM) [obr/min]
+		speed=5 / okres_COM;
  8001632:	4b3d      	ldr	r3, [pc, #244]	; (8001728 <HAL_TIMEx_CommutCallback+0x130>)
  8001634:	ed93 7a00 	vldr	s14, [r3]
  8001638:	eef1 6a04 	vmov.f32	s13, #20	; 0x40a00000  5.0
@@ -2294,16 +2294,16 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  8001640:	4b3a      	ldr	r3, [pc, #232]	; (800172c <HAL_TIMEx_CommutCallback+0x134>)
  8001642:	edc3 7a00 	vstr	s15, [r3]
 
-	speed_tab[0]=okres_COM;
+		speed_tab[0]=okres_COM;
  8001646:	4b38      	ldr	r3, [pc, #224]	; (8001728 <HAL_TIMEx_CommutCallback+0x130>)
  8001648:	681b      	ldr	r3, [r3, #0]
  800164a:	4a39      	ldr	r2, [pc, #228]	; (8001730 <HAL_TIMEx_CommutCallback+0x138>)
  800164c:	6013      	str	r3, [r2, #0]
 
-	while (d>0)
+		while (d>0)
  800164e:	e013      	b.n	8001678 <HAL_TIMEx_CommutCallback+0x80>
-	{
-		speed_tab[d]=speed_tab[d-1];
+		{
+			speed_tab[d]=speed_tab[d-1];
  8001650:	4b38      	ldr	r3, [pc, #224]	; (8001734 <HAL_TIMEx_CommutCallback+0x13c>)
  8001652:	781b      	ldrb	r3, [r3, #0]
  8001654:	3b01      	subs	r3, #1
@@ -2318,30 +2318,30 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  8001666:	0083      	lsls	r3, r0, #2
  8001668:	440b      	add	r3, r1
  800166a:	601a      	str	r2, [r3, #0]
-		d--;
+			d--;
  800166c:	4b31      	ldr	r3, [pc, #196]	; (8001734 <HAL_TIMEx_CommutCallback+0x13c>)
  800166e:	781b      	ldrb	r3, [r3, #0]
  8001670:	3b01      	subs	r3, #1
  8001672:	b2da      	uxtb	r2, r3
  8001674:	4b2f      	ldr	r3, [pc, #188]	; (8001734 <HAL_TIMEx_CommutCallback+0x13c>)
  8001676:	701a      	strb	r2, [r3, #0]
-	while (d>0)
+		while (d>0)
  8001678:	4b2e      	ldr	r3, [pc, #184]	; (8001734 <HAL_TIMEx_CommutCallback+0x13c>)
  800167a:	781b      	ldrb	r3, [r3, #0]
  800167c:	2b00      	cmp	r3, #0
  800167e:	d1e7      	bne.n	8001650 <HAL_TIMEx_CommutCallback+0x58>
-	}
-	d=11;
+		}
+		d=(ilosc_probek-1);
  8001680:	4b2c      	ldr	r3, [pc, #176]	; (8001734 <HAL_TIMEx_CommutCallback+0x13c>)
- 8001682:	220b      	movs	r2, #11
+ 8001682:	2277      	movs	r2, #119	; 0x77
  8001684:	701a      	strb	r2, [r3, #0]
 
-	if(g<12)
+		if(g<ilosc_probek)
  8001686:	4b2c      	ldr	r3, [pc, #176]	; (8001738 <HAL_TIMEx_CommutCallback+0x140>)
  8001688:	781b      	ldrb	r3, [r3, #0]
- 800168a:	2b0b      	cmp	r3, #11
+ 800168a:	2b77      	cmp	r3, #119	; 0x77
  800168c:	d806      	bhi.n	800169c <HAL_TIMEx_CommutCallback+0xa4>
-		g++;
+			g++;
  800168e:	4b2a      	ldr	r3, [pc, #168]	; (8001738 <HAL_TIMEx_CommutCallback+0x140>)
  8001690:	781b      	ldrb	r3, [r3, #0]
  8001692:	3301      	adds	r3, #1
@@ -2349,20 +2349,23 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  8001696:	4b28      	ldr	r3, [pc, #160]	; (8001738 <HAL_TIMEx_CommutCallback+0x140>)
  8001698:	701a      	strb	r2, [r3, #0]
  800169a:	e002      	b.n	80016a2 <HAL_TIMEx_CommutCallback+0xaa>
-	else
-		g=12;
+
+		else
+			g=ilosc_probek;
  800169c:	4b26      	ldr	r3, [pc, #152]	; (8001738 <HAL_TIMEx_CommutCallback+0x140>)
- 800169e:	220c      	movs	r2, #12
+ 800169e:	2278      	movs	r2, #120	; 0x78
  80016a0:	701a      	strb	r2, [r3, #0]
 
-	f=0;
+
+
+		f=0;
  80016a2:	4b26      	ldr	r3, [pc, #152]	; (800173c <HAL_TIMEx_CommutCallback+0x144>)
  80016a4:	2200      	movs	r2, #0
  80016a6:	701a      	strb	r2, [r3, #0]
-	while(f<g)
+		while(f<g)
  80016a8:	e014      	b.n	80016d4 <HAL_TIMEx_CommutCallback+0xdc>
-	{
-		sum_speed=sum_speed + speed_tab[f];
+		{
+			sum_speed=sum_speed + speed_tab[f];
  80016aa:	4b24      	ldr	r3, [pc, #144]	; (800173c <HAL_TIMEx_CommutCallback+0x144>)
  80016ac:	781b      	ldrb	r3, [r3, #0]
  80016ae:	4a20      	ldr	r2, [pc, #128]	; (8001730 <HAL_TIMEx_CommutCallback+0x138>)
@@ -2374,14 +2377,14 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  80016be:	ee77 7a27 	vadd.f32	s15, s14, s15
  80016c2:	4b1f      	ldr	r3, [pc, #124]	; (8001740 <HAL_TIMEx_CommutCallback+0x148>)
  80016c4:	edc3 7a00 	vstr	s15, [r3]
-		f++;
+			f++;
  80016c8:	4b1c      	ldr	r3, [pc, #112]	; (800173c <HAL_TIMEx_CommutCallback+0x144>)
  80016ca:	781b      	ldrb	r3, [r3, #0]
  80016cc:	3301      	adds	r3, #1
  80016ce:	b2da      	uxtb	r2, r3
  80016d0:	4b1a      	ldr	r3, [pc, #104]	; (800173c <HAL_TIMEx_CommutCallback+0x144>)
  80016d2:	701a      	strb	r2, [r3, #0]
-	while(f<g)
+		while(f<g)
  80016d4:	4b19      	ldr	r3, [pc, #100]	; (800173c <HAL_TIMEx_CommutCallback+0x144>)
  80016d6:	781a      	ldrb	r2, [r3, #0]
  80016d8:	4b17      	ldr	r3, [pc, #92]	; (8001738 <HAL_TIMEx_CommutCallback+0x140>)
@@ -2389,9 +2392,9 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  80016dc:	429a      	cmp	r2, r3
  80016de:	d3e4      	bcc.n	80016aa <HAL_TIMEx_CommutCallback+0xb2>
 
-	}
+		}
 
-	average_speed= 5 / (sum_speed/(f+1));
+		average_speed= 5 / (sum_speed/(f+1));
  80016e0:	4b17      	ldr	r3, [pc, #92]	; (8001740 <HAL_TIMEx_CommutCallback+0x148>)
  80016e2:	edd3 6a00 	vldr	s13, [r3]
  80016e6:	4b15      	ldr	r3, [pc, #84]	; (800173c <HAL_TIMEx_CommutCallback+0x144>)
@@ -2405,12 +2408,12 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  8001700:	4b10      	ldr	r3, [pc, #64]	; (8001744 <HAL_TIMEx_CommutCallback+0x14c>)
  8001702:	edc3 7a00 	vstr	s15, [r3]
 
-	sum_speed=0;
+		sum_speed=0;
  8001706:	4b0e      	ldr	r3, [pc, #56]	; (8001740 <HAL_TIMEx_CommutCallback+0x148>)
  8001708:	f04f 0200 	mov.w	r2, #0
  800170c:	601a      	str	r2, [r3, #0]
 
-	}
+		}
 }
  800170e:	bf00      	nop
  8001710:	370c      	adds	r7, #12
@@ -2421,13 +2424,13 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
  800171c:	3eda36e2 	.word	0x3eda36e2
  8001720:	40010000 	.word	0x40010000
  8001724:	40000400 	.word	0x40000400
- 8001728:	20009020 	.word	0x20009020
- 800172c:	20009040 	.word	0x20009040
+ 8001728:	200091d4 	.word	0x200091d4
+ 800172c:	200091f4 	.word	0x200091f4
  8001730:	20000338 	.word	0x20000338
  8001734:	20000000 	.word	0x20000000
- 8001738:	20000001 	.word	0x20000001
- 800173c:	200001fc 	.word	0x200001fc
- 8001740:	20009038 	.word	0x20009038
+ 8001738:	200001fc 	.word	0x200001fc
+ 800173c:	20000518 	.word	0x20000518
+ 8001740:	200091ec 	.word	0x200091ec
  8001744:	20000304 	.word	0x20000304
 
 08001748 <HAL_GPIO_EXTI_Callback>:
@@ -2465,7 +2468,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
  800176a:	3708      	adds	r7, #8
  800176c:	46bd      	mov	sp, r7
  800176e:	bd80      	pop	{r7, pc}
- 8001770:	2000909c 	.word	0x2000909c
+ 8001770:	20009250 	.word	0x20009250
  8001774:	00000000 	.word	0x00000000
 
 08001778 <HAL_ADC_ConvCpltCallback>:
@@ -2658,19 +2661,19 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
  800190c:	3f7205bc 	.word	0x3f7205bc
  8001910:	495182aa 	.word	0x495182aa
  8001914:	3fb6809d 	.word	0x3fb6809d
- 8001918:	20009010 	.word	0x20009010
+ 8001918:	200091c4 	.word	0x200091c4
  800191c:	20000334 	.word	0x20000334
- 8001920:	20009018 	.word	0x20009018
- 8001924:	20009034 	.word	0x20009034
- 8001928:	20009048 	.word	0x20009048
+ 8001920:	200091cc 	.word	0x200091cc
+ 8001924:	200091e8 	.word	0x200091e8
+ 8001928:	200091fc 	.word	0x200091fc
  800192c:	200002fc 	.word	0x200002fc
- 8001930:	2000902c 	.word	0x2000902c
- 8001934:	20009028 	.word	0x20009028
+ 8001930:	200091e0 	.word	0x200091e0
+ 8001934:	200091dc 	.word	0x200091dc
  8001938:	3f13cd3a 	.word	0x3f13cd3a
  800193c:	3f93cd3a 	.word	0x3f93cd3a
- 8001940:	20009054 	.word	0x20009054
+ 8001940:	20009208 	.word	0x20009208
  8001944:	2000030c 	.word	0x2000030c
- 8001948:	20009030 	.word	0x20009030
+ 8001948:	200091e4 	.word	0x200091e4
  800194c:	20000308 	.word	0x20000308
 
 08001950 <main>:
@@ -2860,18 +2863,18 @@ int main(void)
 	  if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_6))
  8001a4e:	e7d3      	b.n	80019f8 <main+0xa8>
  8001a50:	40010000 	.word	0x40010000
- 8001a54:	2000909c 	.word	0x2000909c
+ 8001a54:	20009250 	.word	0x20009250
  8001a58:	40000400 	.word	0x40000400
- 8001a5c:	2000905c 	.word	0x2000905c
+ 8001a5c:	20009210 	.word	0x20009210
  8001a60:	20000310 	.word	0x20000310
  8001a64:	40a00000 	.word	0x40a00000
- 8001a68:	20009010 	.word	0x20009010
+ 8001a68:	200091c4 	.word	0x200091c4
  8001a6c:	2000020c 	.word	0x2000020c
  8001a70:	40020000 	.word	0x40020000
- 8001a74:	2000904c 	.word	0x2000904c
+ 8001a74:	20009200 	.word	0x20009200
  8001a78:	40020800 	.word	0x40020800
  8001a7c:	20000300 	.word	0x20000300
- 8001a80:	20009024 	.word	0x20009024
+ 8001a80:	200091d8 	.word	0x200091d8
 
 08001a84 <SystemClock_Config>:
 /**
@@ -3306,7 +3309,7 @@ void DMA1_Stream3_IRQHandler(void)
  8001c82:	bf00      	nop
  8001c84:	bd80      	pop	{r7, pc}
  8001c86:	bf00      	nop
- 8001c88:	2000915c 	.word	0x2000915c
+ 8001c88:	20009310 	.word	0x20009310
 
 08001c8c <ADC_IRQHandler>:
 
@@ -3354,7 +3357,7 @@ void TIM1_UP_TIM10_IRQHandler(void)
  8001caa:	bf00      	nop
  8001cac:	bd80      	pop	{r7, pc}
  8001cae:	bf00      	nop
- 8001cb0:	2000909c 	.word	0x2000909c
+ 8001cb0:	20009250 	.word	0x20009250
 
 08001cb4 <TIM1_TRG_COM_TIM11_IRQHandler>:
 
@@ -3378,7 +3381,7 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
  8001cbe:	bf00      	nop
  8001cc0:	bd80      	pop	{r7, pc}
  8001cc2:	bf00      	nop
- 8001cc4:	2000909c 	.word	0x2000909c
+ 8001cc4:	20009250 	.word	0x20009250
 
 08001cc8 <USART2_IRQHandler>:
 
@@ -3402,7 +3405,7 @@ void USART2_IRQHandler(void)
  8001cd2:	bf00      	nop
  8001cd4:	bd80      	pop	{r7, pc}
  8001cd6:	bf00      	nop
- 8001cd8:	200091bc 	.word	0x200091bc
+ 8001cd8:	20009370 	.word	0x20009370
 
 08001cdc <USART3_IRQHandler>:
 
@@ -3426,7 +3429,7 @@ void USART3_IRQHandler(void)
  8001ce6:	bf00      	nop
  8001ce8:	bd80      	pop	{r7, pc}
  8001cea:	bf00      	nop
- 8001cec:	200090dc 	.word	0x200090dc
+ 8001cec:	20009290 	.word	0x20009290
 
 08001cf0 <EXTI15_10_IRQHandler>:
 
@@ -3538,7 +3541,7 @@ caddr_t _sbrk(int incr)
  8001d60:	46bd      	mov	sp, r7
  8001d62:	bd80      	pop	{r7, pc}
  8001d64:	20000200 	.word	0x20000200
- 8001d68:	20009648 	.word	0x20009648
+ 8001d68:	20009800 	.word	0x20009800
 
 08001d6c <SystemInit>:
   *         SystemFrequency variable.
@@ -3813,7 +3816,7 @@ void MX_TIM1_Init(void)
  8001f0e:	3778      	adds	r7, #120	; 0x78
  8001f10:	46bd      	mov	sp, r7
  8001f12:	bd80      	pop	{r7, pc}
- 8001f14:	2000909c 	.word	0x2000909c
+ 8001f14:	20009250 	.word	0x20009250
  8001f18:	40010000 	.word	0x40010000
 
 08001f1c <MX_TIM3_Init>:
@@ -3989,7 +3992,7 @@ void MX_TIM3_Init(void)
  800202e:	3748      	adds	r7, #72	; 0x48
  8002030:	46bd      	mov	sp, r7
  8002032:	bd80      	pop	{r7, pc}
- 8002034:	2000905c 	.word	0x2000905c
+ 8002034:	20009210 	.word	0x20009210
  8002038:	40000400 	.word	0x40000400
 
 0800203c <HAL_TIM_Base_MspInit>:
@@ -4327,7 +4330,7 @@ void MX_USART2_UART_Init(void)
  800225a:	bf00      	nop
  800225c:	bd80      	pop	{r7, pc}
  800225e:	bf00      	nop
- 8002260:	200091bc 	.word	0x200091bc
+ 8002260:	20009370 	.word	0x20009370
  8002264:	40004400 	.word	0x40004400
 
 08002268 <MX_USART3_UART_Init>:
@@ -4393,7 +4396,7 @@ void MX_USART3_UART_Init(void)
  80022ba:	bf00      	nop
  80022bc:	bd80      	pop	{r7, pc}
  80022be:	bf00      	nop
- 80022c0:	200090dc 	.word	0x200090dc
+ 80022c0:	20009290 	.word	0x20009290
  80022c4:	40004800 	.word	0x40004800
 
 080022c8 <HAL_UART_MspInit>:
@@ -4641,7 +4644,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
  800245c:	40020000 	.word	0x40020000
  8002460:	40020c00 	.word	0x40020c00
  8002464:	40004800 	.word	0x40004800
- 8002468:	2000915c 	.word	0x2000915c
+ 8002468:	20009310 	.word	0x20009310
  800246c:	40026058 	.word	0x40026058
 
 08002470 <MX_USB_OTG_FS_PCD_Init>:
@@ -4709,7 +4712,7 @@ void MX_USB_OTG_FS_PCD_Init(void)
  80024c2:	bf00      	nop
  80024c4:	bd80      	pop	{r7, pc}
  80024c6:	bf00      	nop
- 80024c8:	2000923c 	.word	0x2000923c
+ 80024c8:	200093f0 	.word	0x200093f0
 
 080024cc <HAL_PCD_MspInit>:
 
@@ -4910,7 +4913,7 @@ LoopFillZerobss:
   ldr  r2, =_sbss
  80025cc:	200001e0 	.word	0x200001e0
   ldr  r3, = _ebss
- 80025d0:	20009648 	.word	0x20009648
+ 80025d0:	200097fc 	.word	0x200097fc
 
 080025d4 <CAN1_RX0_IRQHandler>:
  * @retval None       
@@ -5046,7 +5049,7 @@ __weak void HAL_IncTick(void)
  800266c:	4770      	bx	lr
  800266e:	bf00      	nop
  8002670:	2000000c 	.word	0x2000000c
- 8002674:	20009640 	.word	0x20009640
+ 8002674:	200097f4 	.word	0x200097f4
 
 08002678 <HAL_GetTick>:
   * @note This function is declared as __weak to be overwritten in case of other 
@@ -5066,7 +5069,7 @@ __weak uint32_t HAL_GetTick(void)
  8002684:	f85d 7b04 	ldr.w	r7, [sp], #4
  8002688:	4770      	bx	lr
  800268a:	bf00      	nop
- 800268c:	20009640 	.word	0x20009640
+ 800268c:	200097f4 	.word	0x200097f4
 
 08002690 <HAL_Delay>:
   *       implementations in user file.
@@ -28162,7 +28165,7 @@ void arm_sin_cos_f32(
  800c30a:	b103      	cbz	r3, 800c30e <_sbrk_r+0x1a>
  800c30c:	602b      	str	r3, [r5, #0]
  800c30e:	bd38      	pop	{r3, r4, r5, pc}
- 800c310:	20009644 	.word	0x20009644
+ 800c310:	200097f8 	.word	0x200097f8
 
 0800c314 <strncmp>:
  800c314:	b510      	push	{r4, lr}
