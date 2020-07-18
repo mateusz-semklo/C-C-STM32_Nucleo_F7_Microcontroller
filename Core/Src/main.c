@@ -66,18 +66,21 @@
 /* USER CODE BEGIN PV */
 
 
-volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta_mech,theta_el,sinVal,cosVal,pId,pIq,okres_COM,speed;
+volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta_mech,theta_el,sinVal,cosVal,pId,pIq;
+volatile float32_t okres_COM,speed,sum_speed,average_speed,speed_tab[12];
 
 volatile uint8_t trans,recive;
+
 volatile int16_t pomiar[4], set_point;
 volatile arm_pid_instance_f32 pid;
 
 uint8_t allow=0;
-uint16_t licz,i,a,b,c,d;
-
+uint8_t d=11;
+uint8_t	g=1;
+uint8_t f=0;
+uint16_t licz,i,a,b,c;
 
 volatile char tablica[size][18];
-
 
 
 /* USER CODE END PV */
@@ -113,12 +116,36 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
 	{
    /// TIM3 CLK 80 MHz, PSC =499,  80MGz/(PSC+1)*(TIM1->CCR1+1)
 	/// 80 000 000/ 500 = 160 000 Hz
-	/// T 1/160000 = 0,0000006
+	/// T 1/160000 = 0,000000625
 	okres_COM=	0.00000625 * TIM3->CCR1;
-	// speed = 60 * (12*okres_COM) [obr/min]
+	// speed = 60 * 1/(12*okres_COM) [obr/min]
 	speed=5 / okres_COM;
 
+	speed_tab[0]=okres_COM;
 
+	while (d>0)
+	{
+		speed_tab[d]=speed_tab[d-1];
+		d--;
+	}
+	d=11;
+
+	if(g<12)
+		g++;
+	else
+		g=12;
+
+	f=0;
+	while(f<g)
+	{
+		sum_speed=sum_speed + speed_tab[f];
+		f++;
+
+	}
+
+	average_speed= 5 / (sum_speed/(f+1));
+
+	sum_speed=0;
 
 	}
 }
