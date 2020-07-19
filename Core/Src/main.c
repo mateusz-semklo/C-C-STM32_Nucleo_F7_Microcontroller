@@ -54,7 +54,7 @@
 #define limit_H_current 500
 #define limit_L 0
 #define size 2000
-#define ilosc_probek 120
+#define ilosc_probek 12
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -77,7 +77,7 @@ volatile arm_pid_instance_f32 pid;
 uint8_t allow=0;
 uint8_t f,g=0;
 uint8_t d=(ilosc_probek-1);
-uint16_t licz,i,a,b,c;
+uint16_t licz,i,a,b,c,z;
 
 
 
@@ -96,7 +96,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance==TIM1)
 		{
 
-
+z++;
 /**
 
 
@@ -190,9 +190,9 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 
-				Ia=(pomiar[0]-2850) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
-			    Ib=(pomiar[1]-2850) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
-			    Ic=(pomiar[2]-2850) * 0.0044;
+				Ia=(pomiar[0]-2800) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
+			    Ib=(pomiar[1]-2800) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
+			    Ic=(pomiar[2]-2800) * 0.0044;
 			    theta_mech=((int16_t)(pomiar[3] * 0.0879));
 			    theta_el=theta_mech*2;
 
@@ -276,8 +276,8 @@ int main(void)
 
 
   //////// konfiguracja Timer 1  ////////////
-   TIM1->ARR=0xFFFF;
-   TIM1->PSC=50;
+   TIM1->ARR=0xFFFE;
+   TIM1->PSC=0;
    TIM1->CCR1=63000;
 
    HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);
@@ -287,10 +287,10 @@ int main(void)
     TIM3->ARR=0xFFFE;
     TIM3->PSC=499;
     TIM3->CCR2=1;
-    TIM3->CCR4=1;
+  //  TIM3->CCR4=1;
     HAL_TIMEx_HallSensor_Start(&htim3);
-    HAL_TIM_Base_Start(&htim3);
-    HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_4);
+   // HAL_TIM_Base_Start(&htim3);
+  //  HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_4);
 
 
 
