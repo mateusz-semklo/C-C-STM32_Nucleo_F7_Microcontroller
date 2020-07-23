@@ -55,6 +55,7 @@
 #define limit_L 0
 #define size 2000
 #define ilosc_probek 12
+#define limit_probek_pradu 10
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -70,14 +71,14 @@
 volatile float32_t Ialpha, Ibeta,e,out,priv,Ia,Ib,Ic, theta_mech,theta_el,sinVal,cosVal,pId,pIq;
 volatile float32_t okres_COM,speed, sum_speed, average_speed, speed_tab[ilosc_probek];
 
-volatile uint8_t trans,recive;
-volatile int16_t pomiar[4], set_point;
+volatile uint8_t trans,recive,limit_c,allow_c;
+volatile int16_t pomiar[4], set_point,pomiar_zero[3],pomiar_zero1[3];
 volatile arm_pid_instance_f32 pid;
 
 uint8_t allow=0;
 uint8_t f,g=0;
 uint8_t d=(ilosc_probek-1);
-uint16_t licz,i,a,b,c,z;
+uint16_t licz,i,a,b,c,z;;
 
 
 
@@ -96,7 +97,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(htim->Instance==TIM1)
 		{
 
-z++;
+
 /**
 
 
@@ -169,9 +170,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	if(GPIO_Pin==GPIO_PIN_13)
 	{
 
-		 HAL_TIM_Base_Start_IT(&htim1);
-		 HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
-
 
 	/**	HAL_TIMEx_HallSensor_Stop(&htim3);
 		HAL_TIM_Base_Stop_IT(&htim1);
@@ -190,9 +188,33 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
 
-				Ia=(pomiar[0]-2700) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
-			    Ib=(pomiar[1]-2700) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
-			    Ic=(pomiar[2]-2700) * 0.0044;
+				if(limit_c<limit_probek_pradu)
+				{
+					pomiar_zero[0]+=pomiar[0];
+					pomiar_zero[1]+=pomiar[1];
+					pomiar_zero[2]+=pomiar[2];
+					limit_c++;
+
+
+				}
+
+				else
+				{
+					pomiar_zero1[0]=pomiar_zero[0]/limit_c;
+					pomiar_zero1[1]=pomiar_zero[1]/limit_c;
+					pomiar_zero1[2]=pomiar_zero[2]/limit_c;
+					allow_c=1;
+
+
+
+				}
+
+				if(allow_c>0)
+				{
+
+				Ia=(pomiar[0]-pomiar_zero1[0]) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
+			    Ib=(pomiar[1]-pomiar_zero1[0]) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
+			    Ic=(pomiar[2]-pomiar_zero1[0]) * 0.0044;
 			    theta_mech=((int16_t)(pomiar[3] * 0.0879));
 			    theta_el=theta_mech*2;
 
@@ -200,6 +222,8 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 			    arm_clarke_f32(Ia, Ib, &Ialpha, &Ibeta);
 			    arm_sin_cos_f32(theta_el, &sinVal, &cosVal);
 			    arm_park_f32(Ialpha, Ibeta, &pId, &pIq, sinVal, cosVal);
+
+				}
 
 /**
 				set_point=recive;
@@ -221,6 +245,7 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 							out=limit_L;
 
 						}
+
 
 **/
 
@@ -277,9 +302,10 @@ int main(void)
 
   //////// konfiguracja Timer 1  ////////////
    TIM1->ARR=0xFFFE;
-   TIM1->PSC=0;
+   TIM1->PSC=100;
    TIM1->CCR1=43000;
-
+   HAL_TIM_Base_Start_IT(&htim1);
+   HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
    HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);
 
 
@@ -289,8 +315,8 @@ int main(void)
     TIM3->CCR2=1;
     TIM3->CCR4=1;
     HAL_TIMEx_HallSensor_Start(&htim3);
-    HAL_TIM_Base_Start(&htim3);
-    HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_4);
+    //HAL_TIM_Base_Start(&htim3);
+    //HAL_TIM_OC_Start(&htim3, TIM_CHANNEL_4);
 
 
 
