@@ -56,6 +56,7 @@
 #define size 2000
 #define ilosc_probek 12
 #define limit_probek_pradu 10
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -78,7 +79,8 @@ volatile arm_pid_instance_f32 pid;
 uint8_t allow=0;
 uint8_t f,g=0;
 uint8_t d=(ilosc_probek-1);
-uint16_t licz,i,a,b,c,z;;
+uint16_t licz,i,a,b,c,z;
+
 
 
 
@@ -126,7 +128,7 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
 
 		speed_tab[0]=okres_COM;
 
-		while (d>0)
+/**		while (d>0)
 		{
 			speed_tab[d]=speed_tab[d-1];
 			d--;
@@ -152,8 +154,9 @@ void HAL_TIMEx_CommutCallback(TIM_HandleTypeDef *htim)
 		average_speed= 5 / (sum_speed/(f+1));
 
 		sum_speed=0;
-
+**/
 		}
+
 }
 
 
@@ -171,6 +174,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	{
 
 
+  HAL_UART_Transmit_IT(&huart2, 'a', 1 );
 	/**	HAL_TIMEx_HallSensor_Stop(&htim3);
 		HAL_TIM_Base_Stop_IT(&htim1);
 		HAL_TIM_PWM_Stop_IT(&htim1, TIM_CHANNEL_1);
@@ -215,13 +219,24 @@ void   HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 				Ia=(pomiar[0]-pomiar_zero1[0]) * 0.0044;  // 2.5 v / 3.6 v x 4095 = 2843
 			    Ib=(pomiar[1]-pomiar_zero1[0]) * 0.0044;  // 3.3/4095 * 1/0.185 [v/a] == 0,00435 A
 			    Ic=(pomiar[2]-pomiar_zero1[0]) * 0.0044;
-			    theta_mech=((int16_t)(pomiar[3] * 0.0879));
-			    theta_el=theta_mech*2;
+			    theta_mech=((int16_t)(pomiar[3] * 0.1758));  // 720/4096 =0,17578
+			   // theta_mech=theta_mech+30;
+			    if (theta_mech<360)
+			    {
+			    	theta_el=theta_mech;
+			    }
+			    else
+			    {
+			    	theta_el=(theta_mech)-360;
+			    }
+
 
 
 			    arm_clarke_f32(Ia, Ib, &Ialpha, &Ibeta);
 			    arm_sin_cos_f32(theta_el, &sinVal, &cosVal);
 			    arm_park_f32(Ialpha, Ibeta, &pId, &pIq, sinVal, cosVal);
+
+
 
 				}
 
@@ -300,10 +315,11 @@ int main(void)
 //  HAL_UART_Receive_IT(&huart3, &recive, 1);
 
 
+
   //////// konfiguracja Timer 1  ////////////
-   TIM1->ARR=0xFFFE;
-   TIM1->PSC=100;
-   TIM1->CCR1=43000;
+   TIM1->ARR=30000;  // !! ARR = PWM_PERIOD/2
+   TIM1->PSC=0;
+   TIM1->CCR1=12000;   // TIM1-CCR1 = CCR/2
    HAL_TIM_Base_Start_IT(&htim1);
    HAL_TIM_PWM_Start_IT(&htim1, TIM_CHANNEL_1);
    HAL_TIMEx_ConfigCommutEvent_IT(&htim1,TIM_TS_ITR2, TIM_COMMUTATION_TRGI);
